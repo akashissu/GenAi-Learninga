@@ -14,3 +14,11 @@ sentence-transformers
 langchain-huggingface
 faiss-cpu
 langchain-chroma
+beautifulsoup4
+streamlit
+langchain-groq
+langchain-core
+fastapi
+uvicorn
+langserve
+sse_starlette

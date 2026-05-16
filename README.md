@@ -9,7 +9,9 @@
 [![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)](https://jupyter.org/)
 [![Hugging Face](https://img.shields.io/badge/🤗_HuggingFace-FFD21E?style=for-the-badge)](https://huggingface.co/)
 [![OpenAI](https://img.shields.io/badge/OpenAI-412991?style=for-the-badge&logo=openai&logoColor=white)](https://openai.com/)
+[![Groq](https://img.shields.io/badge/Groq-F55036?style=for-the-badge)](https://groq.com/)
 [![Ollama](https://img.shields.io/badge/Ollama-000000?style=for-the-badge&logo=ollama&logoColor=white)](https://ollama.com/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
 ![Status](https://img.shields.io/badge/status-actively_learning-brightgreen?style=flat-square)
 ![Last Commit](https://img.shields.io/github/last-commit/akashissu/GenAi-Learninga?style=flat-square)
@@ -22,9 +24,41 @@
 
 ## About
 
-> A growing collection of notebooks where I break down **Generative AI** concepts one piece at a time — from talking to LLMs, to chunking documents, to building searchable vector indexes with FAISS and Chroma.
+> A growing collection of notebooks and scripts where I break down **Generative AI** concepts one piece at a time — from talking to LLMs, to chunking documents, to building searchable vector indexes with FAISS and Chroma, and exposing chains over HTTP with LangServe.
 >
 > Think of it as a **lab notebook**, not a polished product. Every folder is an experiment.
+
+---
+
+## Project Structure
+
+```
+Langchain/
+├── .env.example
+├── requirements.txt
+└── 1-Langchain/
+    ├── 1.1-OpenAi/
+    │   ├── GettingStarted.ipynb      # ChatOpenAI, invoke/stream, LangSmith tracing
+    │   └── SimpleGenAi.ipynb         # Deeper OpenAI + LangChain workflows
+    ├── 1.2-Ollam/
+    │   └── app.py                    # Placeholder (local Ollama app — WIP)
+    ├── 1.3-Groq/
+    │   ├── getStarted.ipynb          # ChatGroq basics
+    │   └── serve.py                  # FastAPI + LangServe translation chain
+    ├── 3.2-Dataingetion/
+    │   ├── 3.2-Dataingetion.ipynb    # PDF, web, Arxiv, Wikipedia loaders
+    │   ├── 3.3-textspillter.ipynb    # Recursive character text splitter
+    │   └── 3.4-characterSpilitter.ipynb
+    ├── 3.4-embedding/
+    │   ├── embedding.ipynb           # OpenAI embeddings
+    │   └── ollama-embedding.ipynb    # Local embeddings via Ollama
+    ├── 4.1-HuggingFace/
+    │   └── huggingface.ipynb         # HF models & sentence-transformers
+    └── 5-VectorDB/
+        ├── 5.1-FaissDB.ipynb         # FAISS index build & query
+        ├── 5.2-chromadb.ipynb        # ChromaDB persistent store
+        └── speech.txt                # Sample text for vector demos
+```
 
 ---
 
@@ -53,10 +87,13 @@ flowchart LR
 <details open>
 <summary><b>1 · LangChain Fundamentals</b></summary>
 
-| Module | Topic | Status |
-|--------|-------|:------:|
-| `1.1-OpenAi` | Talking to OpenAI models via LangChain | Pending |
-| `1.2-Ollam`  | Local LLMs with Ollama | Pending |
+| Path | Topic | Status |
+|------|-------|:------:|
+| `1.1-OpenAi/GettingStarted.ipynb` | `ChatOpenAI`, invoke/stream, LangSmith tracing | Done |
+| `1.1-OpenAi/SimpleGenAi.ipynb` | OpenAI + LangChain patterns | Done |
+| `1.2-Ollam/app.py` | Local LLMs with Ollama (Streamlit) | WIP |
+| `1.3-Groq/getStarted.ipynb` | `ChatGroq` setup & prompts | Done |
+| `1.3-Groq/serve.py` | FastAPI + LangServe hosted chain | Done |
 
 </details>
 
@@ -86,7 +123,7 @@ flowchart LR
 
 | Notebook | Covers |
 |----------|--------|
-| `huggingface.ipynb` | Using HF models & `sentence-transformers` inside LangChain |
+| `huggingface.ipynb` | HF models & `sentence-transformers` inside LangChain |
 
 </details>
 
@@ -109,9 +146,10 @@ flowchart LR
 <td valign="top" width="33%">
 
 ### LLMs
-- OpenAI GPT
+- OpenAI GPT (`langchain-openai`)
+- Groq (`langchain-groq`)
 - Ollama (local)
-- Hugging Face
+- Hugging Face (`langchain-huggingface`)
 
 </td>
 <td valign="top" width="33%">
@@ -125,8 +163,8 @@ flowchart LR
 <td valign="top" width="33%">
 
 ### Vector Stores
-- FAISS
-- ChromaDB
+- FAISS (`faiss-cpu`)
+- ChromaDB (`langchain-chroma`)
 
 </td>
 </tr>
@@ -135,7 +173,7 @@ flowchart LR
 
 ### Loaders
 - `pypdf` / `pymupdf`
-- `bs4` (web)
+- `beautifulsoup4` (web)
 - `arxiv`
 - `wikipedia`
 
@@ -143,17 +181,18 @@ flowchart LR
 <td valign="top">
 
 ### Splitters
-- Recursive Character
+- Recursive Character (`langchain-text-splitters`)
 - Character
 - Token-based
 
 </td>
 <td valign="top">
 
-### Tooling
-- Jupyter
-- python-dotenv
-- ipykernel
+### Serving & Tooling
+- FastAPI + Uvicorn
+- LangServe
+- Streamlit (planned for Ollama UI)
+- Jupyter, python-dotenv, ipykernel
 
 </td>
 </tr>
@@ -184,6 +223,15 @@ cp .env.example .env
 jupyter notebook
 ```
 
+### Run the Groq LangServe API
+
+```bash
+cd 1-Langchain/1.3-Groq
+python serve.py
+# API docs: http://127.0.0.1:8000/docs
+# Chain playground: http://127.0.0.1:8000/chain/playground/
+```
+
 > [!TIP]
 > Running locally with **Ollama**? Install it from [ollama.com](https://ollama.com) and pull a model first:
 > ```bash
@@ -198,28 +246,33 @@ jupyter notebook
 | Variable | Used for | Required |
 |----------|----------|:--------:|
 | `OPENAI_API_KEY` | OpenAI LLMs & embeddings | If using OpenAI |
-| `GROQ_API_KEY` | Groq inference | Optional |
+| `GROQ_API_KEY` | Groq inference (`1.3-Groq`) | If using Groq |
 | `HF_TOKEN` | Gated Hugging Face models | Optional |
-| `LANGCHAIN_API_KEY` | LangSmith tracing | Optional |
+| `LANGCHAIN_API_KEY` / `LANGSMITH_API_KEY` | LangSmith tracing | Optional |
+| `LANGCHAIN_TRACING_V2` | Enable tracing | Optional |
+| `LANGCHAIN_PROJECT` | LangSmith project name | Optional |
 
 > [!WARNING]
-> Never commit your `.env` file. It's already in `.gitignore` — keep it that way.
+> Never commit your `.env` file. It's already in `.gitignore` — keep it that way. Clear notebook cell outputs before pushing if they contain keys or secrets.
 
 ---
 
 ## Progress Tracker
 
 - [x] Project scaffolding & environment setup
+- [x] OpenAI basics (`GettingStarted`, `SimpleGenAi`)
+- [x] Groq basics + LangServe API (`getStarted`, `serve.py`)
 - [x] Data ingestion (PDF, web, Arxiv, Wikipedia)
 - [x] Text splitting strategies
 - [x] OpenAI & Ollama embeddings
+- [x] Hugging Face / sentence-transformers
 - [x] FAISS vector store
 - [x] ChromaDB vector store
+- [ ] Ollama Streamlit app (`1.2-Ollam/app.py`)
 - [ ] End-to-end RAG pipeline
 - [ ] Conversational memory
 - [ ] Agents & tool calling
 - [ ] LangGraph workflows
-- [ ] Deploying with FastAPI
 
 ---
 
