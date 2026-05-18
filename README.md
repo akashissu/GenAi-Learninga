@@ -54,10 +54,14 @@ Langchain/
     │   └── ollama-embedding.ipynb    # Local embeddings via Ollama
     ├── 4.1-HuggingFace/
     │   └── huggingface.ipynb         # HF models & sentence-transformers
-    └── 5-VectorDB/
-        ├── 5.1-FaissDB.ipynb         # FAISS index build & query
-        ├── 5.2-chromadb.ipynb        # ChromaDB persistent store
-        └── speech.txt                # Sample text for vector demos
+    ├── 5-VectorDB/
+    │   ├── 5.1-FaissDB.ipynb         # FAISS index build & query
+    │   ├── 5.2-chromadb.ipynb        # ChromaDB persistent store
+    │   ├── vectorretriever.ipynb     # Documents, vector stores & retrievers
+    │   └── speech.txt                # Sample text for vector demos
+    └── LearningProjects/
+        ├── 1-chatbots.ipynb          # Stateful chatbot with message history
+        └── conversationqa.ipynb      # Conversational RAG Q&A over web docs
 ```
 
 ---
@@ -128,12 +132,23 @@ flowchart LR
 </details>
 
 <details open>
-<summary><b>5 · Vector Databases</b></summary>
+<summary><b>5 · Vector Databases & Retrievers</b></summary>
 
 | Notebook | Covers |
 |----------|--------|
 | `5.1-FaissDB.ipynb` | Building & querying a FAISS index |
 | `5.2-chromadb.ipynb` | Persistent storage with ChromaDB |
+| `vectorretriever.ipynb` | Documents, vector stores, retrievers & RAG prep |
+
+</details>
+
+<details open>
+<summary><b>Learning Projects · Chatbots & RAG</b></summary>
+
+| Notebook | Covers |
+|----------|--------|
+| `1-chatbots.ipynb` | LLM chatbot with `RunnableWithMessageHistory` & session memory |
+| `conversationqa.ipynb` | Conversational Q&A with Chroma retrieval + chat history |
 
 </details>
 
@@ -268,9 +283,11 @@ python serve.py
 - [x] Hugging Face / sentence-transformers
 - [x] FAISS vector store
 - [x] ChromaDB vector store
+- [x] Vector retrievers (`vectorretriever.ipynb`)
+- [x] Conversational memory (`1-chatbots.ipynb`)
+- [x] Conversational RAG Q&A (`conversationqa.ipynb`)
 - [ ] Ollama Streamlit app (`1.2-Ollam/app.py`)
-- [ ] End-to-end RAG pipeline
-- [ ] Conversational memory
+- [ ] End-to-end RAG pipeline (polish & deploy)
 - [ ] Agents & tool calling
 - [ ] LangGraph workflows
 
